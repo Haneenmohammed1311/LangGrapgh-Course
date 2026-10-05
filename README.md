@@ -2,7 +2,7 @@
 
 A from-scratch rebuild of a LangGraph lesson, a ReAct agent built as an explicit state graph instead of a hidden agent loop, with real tool calling against Tavily search and a custom tool.
 
-Part of a larger Udemy Agentic AI course, rebuilt independently branch by branch and repo by repo, not copied from the instructor's code. See `EVOLUTION.md` in this repo for how this specific architecture fits into the broader history of how LangChain agents have been built over time.
+See `EVOLUTION.md` in this repo for how this specific architecture fits into the broader history of how LangChain agents have been built over time.
 
 ## What it does
 
@@ -18,7 +18,7 @@ flowchart TD
     Act --> Reason
 ```
 
-This is the actual graph your own code builds and compiles, the same shape `app.get_graph().draw_mermaid_png()` renders to `flow.png`. Two nodes, one conditional branch, one loop-back edge.
+This is the actual graph the code builds and compiles, the same shape `app.get_graph().draw_mermaid_png()` renders to `flow.png`. Two nodes, one conditional branch, one loop-back edge.
 
 ## Files
 
