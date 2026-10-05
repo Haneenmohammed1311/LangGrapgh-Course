@@ -15,7 +15,7 @@ def reasoning_node(state: MessagesState) -> MessagesState:
     A node that takes in a MessagesState and returns a new MessagesState
     with the reasoning of the model.
     """
-    response = llm.invoke([{"role": "system", "content": SYSTEM_MESSAGE}] + state.messages)
+    response = llm.invoke([{"role": "system", "content": SYSTEM_MESSAGE}] + state["messages"])
     return {"messages":[response]}
 
 tools_node = ToolNode(tools)

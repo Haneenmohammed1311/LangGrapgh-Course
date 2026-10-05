@@ -14,4 +14,4 @@ def triple(num:float) -> float:
     return float(num) * 3
 
 tools = [TavilySearch(max_results=1), triple]
-llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash") 
+llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash").bind_tools(tools)
