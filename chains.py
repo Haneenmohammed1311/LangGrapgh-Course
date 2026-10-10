@@ -1,27 +1,38 @@
+# THE LOGIC(the brain)
+#---------------------
 import datetime
+
 from dotenv import load_dotenv
+
 load_dotenv()
 
 from langchain_core.messages import HumanMessage
+from langchain_core.output_parsers.openai_tools import PydanticToolsParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_google_genai import ChatGoogleGenerativeAI
+
 from schemas import AnswerQuestion, ReviseAnswer
 
-llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash", temperature=0)
+llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash")
+parser_pydantic = PydanticToolsParser(tools=[AnswerQuestion])
 
+# One system message only, at the top. The old trailing system message
+# ("Answer the user's question above...") is folded in here, because
+# Gemini rejects system messages that come after the conversation starts.
 actor_prompt_template = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            """You are an expert researcher.
+            """You are expert researcher.
 Current time: {time}
 
 1. {first_instruction}
 2. Reflect and critique your answer. Be severe to maximize improvement.
-3. Recommend search queries to research information and improve your answer."""
+3. Recommend search queries to research information and improve your answer.
+
+Answer the user's question using the required format.""",
         ),
         MessagesPlaceholder(variable_name="messages"),
-        ("system", "Answer the user's question above using the required format."),
     ]
 ).partial(
     time=lambda: datetime.datetime.now().isoformat(),
@@ -31,7 +42,6 @@ first_responder_prompt_template = actor_prompt_template.partial(
     first_instruction="Provide a detailed ~250 word answer."
 )
 
-# We use bind_tools so the model outputs an AIMessage with tool_calls for LangGraph
 first_responder = first_responder_prompt_template | llm.bind_tools(
     tools=[AnswerQuestion], tool_choice="AnswerQuestion"
 )
@@ -49,9 +59,13 @@ revisor = actor_prompt_template.partial(
     first_instruction=revise_instructions
 ) | llm.bind_tools(tools=[ReviseAnswer], tool_choice="ReviseAnswer")
 
+
 if __name__ == "__main__":
     human_message = HumanMessage(
-        content="Write about AI-Powered SOC / autonomous soc problem domain, list startups that do that and raised capital."
+        content="Write about AI-Powered SOC / autonomous soc problem domain,"
+        " list startups that do that and raised capital."
     )
-    res = first_responder.invoke(input={"messages": [human_message]})
-    print(res.tool_calls)
+    chain = first_responder | parser_pydantic
+
+    res = chain.invoke(input={"messages": [human_message]})
+    print(res)

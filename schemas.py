@@ -1,3 +1,8 @@
+# THE BLUEPRINT
+#--------------
+# this file make the llm output structured and can be used to validate the output of the llm,
+# it uses pydantic to define the schema of the output, and the output of the llm will be validated against this schema
+
 from typing import List
 from pydantic import BaseModel, Field
 
