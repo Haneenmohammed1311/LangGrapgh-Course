@@ -1,7 +1,13 @@
 # LangGraph Course
 
 A from-scratch rebuild of a LangGraph lesson, a ReAct agent built as an explicit state graph instead of a hidden agent loop, with real tool calling against Tavily search and a custom tool.
+## Branches
 
+| Branch | What it covers |
+|---|---|
+| `main` | ReAct agent as an explicit LangGraph state graph, real tool calling with Tavily search and a custom `triple` tool |
+| [reflection-agent](https://github.com/Haneenmohammed1311/LangGrapgh-Course/tree/project/reflection-agent) | A self-critiquing generate-and-reflect loop for improving LinkedIn posts, with Gemini-specific message role swapping |
+| [reflexion-agent](https://github.com/Haneenmohammed1311/LangGrapgh-Course/tree/project/reflexion-agent) | A researcher agent that drafts, critiques itself, searches the web, and revises with numbered citations, using structured Pydantic outputs |
 See `EVOLUTION.md` in this repo for how this specific architecture fits into the broader history of how LangChain agents have been built over time.
 
 ## What it does
