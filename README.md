@@ -98,9 +98,9 @@ Question: AI-powered and autonomous SOC problem domain, with startups that raise
 ## Setup
 
 ```bash
-git clone https://github.com/Haneenmohammed1311/Langgraph-Course.git
+git clone https://github.com/Haneenmohammed1311/LangGrapgh-Course.git
 cd Langgraph-Course
-git checkout reflexion-agent
+git checkout project/reflexion-agent
 uv sync
 ```
 
